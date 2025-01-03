@@ -22,8 +22,9 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("Status", "Running");
-        double leftPower = Range.clip(-gamepad1.left_stick_y + gamepad1.right_stick_x, -1.0, 1.0);
-        double rightPower = Range.clip(-gamepad1.left_stick_y - gamepad1.right_stick_x, -1.0, 1.0);
+        double rotationSpeed = 0.75;
+        double leftPower = Range.clip(-gamepad1.left_stick_y + (gamepad1.right_stick_x * rotationSpeed), -1.0, 1.0);
+        double rightPower = Range.clip(-gamepad1.left_stick_y - (gamepad1.right_stick_x * rotationSpeed), -1.0, 1.0);
 
 
         left_drive.setPower(leftPower);
