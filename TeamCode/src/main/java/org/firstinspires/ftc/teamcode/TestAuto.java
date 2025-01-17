@@ -28,37 +28,26 @@ public class TestAuto extends LinearOpMode {
 
         waitForStart(); // This means it is waiting for the code to start to run this line
 
-        timer.reset(); // This resets the timer
 
-        // this makes the following code run for 5 seconds
-        while(opModeIsActive() && (timer.seconds() <= 5.0 )) {
+        tankDrive(0.75, 0.75, 5.0); // this makes the robot go forward for 5 seconds
+        tankDrive(0.0, 0.0, 2.0); // this makes the robot stop for 2 seconds
+        tankDrive(-0.75, -0.75, 5.0); // this makes the robot go backwards for 5 seconds
 
-            // this sets the motors to 75% power
-            left_drive.setPower(0.75);
-            right_drive.setPower(0.75);
 
-        }
-
-        timer.reset(); // This resets the timer
-
-        // this makes the following code run for 2 seconds
-        while(opModeIsActive() && (timer.seconds() <= 2.0 )) {
-
-            // this sets the motors to 0% power
-            left_drive.setPower(0.00);
-            right_drive.setPower(0.00);
-
-        }
-
-        timer.reset(); // This resets the timer
-
-        // this makes the following code run for 5 seconds
-        while(opModeIsActive() && (timer.seconds() <= 5.0 )) {
-
-            // this sets the motors to -75% power
-            left_drive.setPower(-0.75);
-            right_drive.setPower(-0.75);
-
-        }
     }
+
+    public void tankDrive(double leftPower, double rightPower, double seconds) {
+
+        timer.reset(); // this resets the timer
+        // this makes the following code run for a specified amount of seconds
+        while(opModeIsActive() && (timer.seconds() <= seconds )) {
+
+            // this sets the motors to a specified power
+            left_drive.setPower(leftPower);
+            right_drive.setPower(rightPower);
+
+        }
+
+    }
+
 }
