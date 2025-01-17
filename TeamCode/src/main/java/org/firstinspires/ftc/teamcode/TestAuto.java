@@ -9,14 +9,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name="Robot: Auto Drive By Time", group="Robot")
 public class TestAuto extends LinearOpMode {
 
-    public DcMotor left_drive;
-    public DcMotor right_drive;
+    public DcMotor left_drive; // This is the left drive train motor
+    public DcMotor right_drive; // This is the right drive train motor
 
-    public ElapsedTime timer = new ElapsedTime();
+    public ElapsedTime timer = new ElapsedTime(); // this creates a new timer
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        // This assigns the motors to the hardware map
         left_drive = hardwareMap.get(DcMotor.class, "Left Drive");
         right_drive = hardwareMap.get(DcMotor.class, "Right Drive");
 
@@ -25,19 +26,39 @@ public class TestAuto extends LinearOpMode {
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
-        waitForStart();
+        waitForStart(); // This means it is waiting for the code to start to run this line
 
-        timer.reset();
+        timer.reset(); // This resets the timer
 
+        // this makes the following code run for 5 seconds
         while(opModeIsActive() && (timer.seconds() <= 5.0 )) {
 
+            // this sets the motors to 75% power
             left_drive.setPower(0.75);
             right_drive.setPower(0.75);
 
         }
 
-        left_drive.setPower(0.0);
-        right_drive.setPower(0.0);
+        timer.reset(); // This resets the timer
 
+        // this makes the following code run for 2 seconds
+        while(opModeIsActive() && (timer.seconds() <= 2.0 )) {
+
+            // this sets the motors to 0% power
+            left_drive.setPower(0.00);
+            right_drive.setPower(0.00);
+
+        }
+
+        timer.reset(); // This resets the timer
+
+        // this makes the following code run for 5 seconds
+        while(opModeIsActive() && (timer.seconds() <= 5.0 )) {
+
+            // this sets the motors to -75% power
+            left_drive.setPower(-0.75);
+            right_drive.setPower(-0.75);
+
+        }
     }
 }
