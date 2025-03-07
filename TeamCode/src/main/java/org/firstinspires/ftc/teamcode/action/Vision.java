@@ -45,7 +45,7 @@ public class Vision {
     }
 
     public String closestSwatch() {
-        return result().closestSwatch.toString();
+        return (result().closestSwatch == null) ? "null" : result().closestSwatch.toString();
     }
 
     public int getColor(String color) {
@@ -60,8 +60,44 @@ public class Vision {
         return -1;
     }
 
+    public double[] getHSVValue() {
+        int red = Math.min(Math.max(getColor("red"), 0), 255);
+        int green = Math.min(Math.max(getColor("green"), 0), 255);
+        int blue = Math.min(Math.max(getColor("blue"), 0), 255);
+        red /= 255;
+        green /= 255;
+        blue /= 255;
+        telemetry.addData("red", red);
+        int valueMax = Math.max(red, Math.max(blue, green));
+        int valueMin = Math.min(red, Math.min(blue, green));
+        int deltaValue = valueMax - valueMin;
+        double hue = 0, saturation, value;
+        if (deltaValue > 0) {
+            if (valueMax == red) {
+                hue = ((double) (green - blue) / deltaValue) % 6;
+            } else if (valueMax == green) {
+                hue = ((double) blue - red) / deltaValue + 2;
+            } else {
+                hue = ((double) red - green) / deltaValue + 4;
+            }
+            hue *= 60;
+            if(hue < 0) {
+                hue += 360;
+            }
+        }
+
+
+        value = valueMax;
+
+        saturation = (value == 0) ? 0 : deltaValue / value;
+        saturation *= 100;
+        value *= 100;
+        return new double[] {hue, saturation, value};
+    }
+
     public void telemetryOutput() {
         telemetry.addData("closestSwatch", closestSwatch());
-        telemetry.addData("RGB", String.format("R %3d, G %3d, B %3d", getColor("red"), getColor("green"), getColor("blue")));
+        telemetry.addData("RGB", String.format("R %4d, G %4d, B %4d", getColor("red"), getColor("green"), getColor("blue")));
+        telemetry.addData("HSV", String.format("H %4.0f, S %4.1f, V %4.1f", getHSVValue()[0], getHSVValue()[1], getHSVValue()[2]));
     }
 }
