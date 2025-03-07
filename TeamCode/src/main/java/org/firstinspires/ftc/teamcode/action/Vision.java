@@ -61,31 +61,29 @@ public class Vision {
     }
 
     public double[] getHSVValue() {
-        int red = Math.min(Math.max(getColor("red"), 0), 255);
-        int green = Math.min(Math.max(getColor("green"), 0), 255);
-        int blue = Math.min(Math.max(getColor("blue"), 0), 255);
+        double red = Math.min(Math.max(getColor("red"), 0), 255);
+        double green = Math.min(Math.max(getColor("green"), 0), 255);
+        double blue = Math.min(Math.max(getColor("blue"), 0), 255);
         red /= 255;
         green /= 255;
         blue /= 255;
-        telemetry.addData("red", red);
-        int valueMax = Math.max(red, Math.max(blue, green));
-        int valueMin = Math.min(red, Math.min(blue, green));
-        int deltaValue = valueMax - valueMin;
-        double hue = 0, saturation, value;
-        if (deltaValue > 0) {
-            if (valueMax == red) {
-                hue = ((double) (green - blue) / deltaValue) % 6;
-            } else if (valueMax == green) {
-                hue = ((double) blue - red) / deltaValue + 2;
-            } else {
-                hue = ((double) red - green) / deltaValue + 4;
-            }
-            hue *= 60;
-            if(hue < 0) {
-                hue += 360;
-            }
+        double valueMax = Math.max(red, Math.max(blue, green));
+        double valueMin = Math.min(red, Math.min(blue, green));
+        double deltaValue = valueMax - valueMin;
+        double hue, saturation, value;
+        if (deltaValue == 0) {
+            hue = 0;
+        } else if (valueMax == red) {
+            hue = ((green - blue) / deltaValue) % 6;
+        } else if (valueMax == green) {
+            hue = (blue - red) / deltaValue + 2;
+        } else {
+            hue = (red - green) / deltaValue + 4;
         }
-
+        hue *= 60;
+        if(hue < 0) {
+            hue += 360;
+        }
 
         value = valueMax;
 
