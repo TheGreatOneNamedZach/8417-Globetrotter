@@ -20,6 +20,9 @@ import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 import java.util.List;
 
+/** This is the class for our Vision Detection
+ * This allows us to detect color in HSV and RGB and detect april tags
+ */
 public class Vision {
 
     Telemetry telemetry;
@@ -34,6 +37,8 @@ public class Vision {
         colorSensor = new PredominantColorProcessor.Builder()
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.1, 0.1, 0.1, -0.1))
                 .setSwatches(
+
+                        // These adds the different colors the robot can see
                         PredominantColorProcessor.Swatch.RED,
                         PredominantColorProcessor.Swatch.BLUE,
                         PredominantColorProcessor.Swatch.YELLOW,
@@ -41,26 +46,42 @@ public class Vision {
                         PredominantColorProcessor.Swatch.WHITE)
                 .build();
 
+        // This method allows us to detect april tags
         aprilTag = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
                 .setDrawTagOutline(true)
-                .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11) // This sets the family of tags the robot works with
                 .build();
 
+        // This method sets which camera we will use
         portal = new VisionPortal.Builder()
                 .addProcessors(colorSensor, aprilTag)
                 .setCameraResolution(new Size(320, 240))
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .build();
     }
+
+    /** Predominant Color Processor gives us what color the robot sees
+     *
+     * @return PredominantColorProcessor with a closestSwatch and Integer
+     */
     public PredominantColorProcessor.Result result() {
         return colorSensor.getAnalysis();
     }
 
+    /** Closest Swatch gives us the closestSwatch as a String
+     * The method returns the closest swatch and makes sure it is not null
+     * @return closestSwatch as a String
+     */
     public String closestSwatch() {
         return (result().closestSwatch == null) ? "null" : result().closestSwatch.toString();
     }
 
+    /** getColor passes in a String of Red Green or Blue and then converts that to the rgb value
+     * if the color is not Red Green or Blue then it returns -1
+     * @param color passes in the color we want as a String and must be Red Green or Blue
+     * @return getColor as the int value of the color we passed in
+     */
     public int getColor(String color) {
         switch (color.toLowerCase()) {
             case "red":
@@ -73,6 +94,10 @@ public class Vision {
         return -1;
     }
 
+    /** This converts the rgb value to HSV
+     * This method runs the calculations to convert a rgb value to a HSV value
+     * @return A Double array of Hue Saturation and Value
+     */
     public double[] getHSVValue() {
         double red = Math.min(Math.max(getColor("red"), 0), 255);
         double green = Math.min(Math.max(getColor("green"), 0), 255);
@@ -106,6 +131,11 @@ public class Vision {
         return new double[] {hue, saturation, value};
     }
 
+    /** AprilTagSearch allows us to get the april tag id
+     *
+     * @param id passes in the id number for the april tag we want to detect
+     * @return AprilTagDetection with the metadata
+     */
     public AprilTagDetection aprilTagSearch(int id) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
 
@@ -133,6 +163,9 @@ public class Vision {
         return null;
     }
 
+    /** Outputs Telemetry for this class
+     * Outputs the Telemetry for the RGB and HSV values to the driver station
+     */
     public void telemetryOutput() {
         telemetry.addData("closestSwatch", closestSwatch());
         telemetry.addData("RGB", String.format("R %4d, G %4d, B %4d", getColor("red"), getColor("green"), getColor("blue")));
