@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.init;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.action.Grabber;
 import org.firstinspires.ftc.teamcode.action.SubmersibleServo;
 
 @TeleOp(name="Submersible Game")
@@ -24,6 +27,7 @@ public class Submersible extends OpMode {
 
     org.firstinspires.ftc.teamcode.action.SubmersibleServo xAxis;
     org.firstinspires.ftc.teamcode.action.SubmersibleServo zAxis;
+    org.firstinspires.ftc.teamcode.action.Grabber grabber;
 
 
     @Override
@@ -40,11 +44,15 @@ public class Submersible extends OpMode {
         grab = hardwareMap.get(TouchSensor.class, "Grab");
         xAxis = new SubmersibleServo(upAndDown, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch);
         zAxis = new SubmersibleServo(leftAndRight, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch);
+        grabber = new Grabber(magnetClaw, this, grab);
+
     }
 
     @Override
     public void loop() {
         xAxis.servoMovement();
         zAxis.servoMovement();
+        grabber.clawMovement();
+        grabber.telemetryOutput();
     }
 }

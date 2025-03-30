@@ -31,10 +31,10 @@ public class SubmersibleServo {
             this.axisMovement.setPower(0);
 
         } else if (this.posTouch.isPressed()) {
-            this.axisMovement.setPower(0.05);
+            this.axisMovement.setPower(0.30);
 
         } else if (this.negTouch.isPressed()) {
-            this.axisMovement.setPower(-0.05);
+            this.axisMovement.setPower(-0.30);
         } else {
             this.axisMovement.setPower(0);
         }
