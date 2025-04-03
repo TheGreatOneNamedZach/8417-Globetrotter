@@ -35,6 +35,11 @@ public class Grabber {
 
     public void telemetryOutput() {
 
-        telemetry.addData("Grabber", "\nClaw Moves Up: %b\nWas Pressed: %b\nMagnet: %.2f\nGrab: %b", this.clawMovesUp, this.wasPressed, this.magnet.getPower(), this.grab.isPressed());
+        telemetry.addData("Grabber", "\n" +
+                "Claw Moves Up: %b\n" +
+                "Was Pressed: %b\n" +
+                "Magnet: %.2f\n" +
+                "Grab: %b",
+                this.clawMovesUp, this.wasPressed, this.magnet.getPower(), this.grab.isPressed());
     }
 }
