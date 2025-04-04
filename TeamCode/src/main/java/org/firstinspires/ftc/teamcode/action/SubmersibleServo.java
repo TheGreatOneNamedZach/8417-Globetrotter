@@ -30,7 +30,7 @@ public class SubmersibleServo {
 
     /** <b>This is the constructor for {@link SubmersibleServo}.</b>
      * <p>
-     *     This is the main constructor called for SubmersibleServo.
+     *     This is the main constructor for SubmersibleServo.
      * </p>
      * @param axis Servo that moves across this axis
      * @param opMode The current OpMode (pass in "this")
@@ -53,7 +53,7 @@ public class SubmersibleServo {
         this.displayName = displayName;
     }
 
-    /** Controls the servo movement on the axis.
+    /** <b>Controls the servo movement on the axis.</b>
      * <p>
      *     This method interacts with three touch sensors to determine how the servo should behave when the user wants to move along this axis.
      * </p>
@@ -63,20 +63,26 @@ public class SubmersibleServo {
         // IF the limit sensor is pressed...
         //  ...OR the positive touch sensor AND the negitive touch sensor is pressed...
         if (this.limitTouch.isPressed() || (this.posTouch.isPressed() && this.negTouch.isPressed())) {
-            this.axisMovement.setPower(0);
+            this.axisMovement.setPower(0); // Set the power to 0%
 
         } else if (this.posTouch.isPressed()) {
-            this.axisMovement.setPower(0.30);
+            // ...else IF the positive touch sensor is pressed...
+
+            this.axisMovement.setPower(1); // Set the power to 100%
 
         } else if (this.negTouch.isPressed()) {
-            this.axisMovement.setPower(-0.30);
+            // ...else IF the negative touch sensor is pressed...
+
+            this.axisMovement.setPower(-0.30); // Set the power to -100%
+
         } else {
-            this.axisMovement.setPower(0);
+
+            this.axisMovement.setPower(0); // Set the power to 0%
         }
 
     }
 
-    /** Outputs relevant information about this axis to the driver screen. */
+    /** <b>Outputs relevant information about this axis to the driver screen.</b> */
     public void telemetryOutput() {
 
         this.telemetry.addData(this.displayName, "\n" +

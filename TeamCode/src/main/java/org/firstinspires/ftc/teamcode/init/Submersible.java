@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.action.Grabber;
 import org.firstinspires.ftc.teamcode.action.SubmersibleServo;
 
-/** Operates the claw game designed for the 2025 FTC World Competition.
+/** <b>Operates the claw game designed for the 2025 FTC World Competition.</b>
  * <p>
  *     This OpMode controls the various mechanisms on the claw game.
  *     First, it uses the {@link SubmersibleServo} object class to control axis movement along 2 axis.
@@ -69,7 +69,7 @@ public class Submersible extends OpMode {
         zAxis.servoMovement();
         grabber.clawMovement();
 
-        // Outputs telemetry 
+        // Outputs telemetry
         grabber.telemetryOutput();
         xAxis.telemetryOutput();
         zAxis.telemetryOutput();
