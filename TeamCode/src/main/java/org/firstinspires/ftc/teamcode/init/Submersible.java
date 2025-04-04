@@ -55,10 +55,9 @@ public class Submersible extends OpMode {
         grab = hardwareMap.get(TouchSensor.class, "Grab");
 
         // Constructs the objects
-        xAxis = new SubmersibleServo(upAndDown, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis");
-        zAxis = new SubmersibleServo(leftAndRight, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis");
+        xAxis = new SubmersibleServo(upAndDown, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis", 1);
+        zAxis = new SubmersibleServo(leftAndRight, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis", 0.75);
         grabber = new Grabber(magnetClaw, this, grab);
-
     }
 
     @Override

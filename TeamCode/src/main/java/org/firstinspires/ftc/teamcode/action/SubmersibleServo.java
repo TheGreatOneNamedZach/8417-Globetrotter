@@ -27,6 +27,7 @@ public class SubmersibleServo {
     TouchSensor negTouch; // The touch sensor that moves the servo backwards
     TouchSensor limitTouch; // The touch sensor at the limit of the servo's movement boundary
     String displayName; // The name of the axis to display on telemetry
+    double axisSpeedMult; // The axis-specific speed multiplier
 
     /** <b>This is the constructor for {@link SubmersibleServo}.</b>
      * <p>
@@ -38,11 +39,12 @@ public class SubmersibleServo {
      * @param NegTouch The touch sensor to move the servo backwards
      * @param LimitTouch The limit touch sensor
      * @param displayName The name of the axis (e.g., x axis, y axis, z axis)
+     * @param axisSpeedMult The axis-specific speed multiplier
      * @see SubmersibleServo
      * @see Grabber
      * @see org.firstinspires.ftc.teamcode.init.Submersible Submersible
      */
-    public SubmersibleServo(CRServo axis, @NonNull OpMode opMode, TouchSensor PosTouch, TouchSensor NegTouch, TouchSensor LimitTouch, String displayName) {
+    public SubmersibleServo(CRServo axis, @NonNull OpMode opMode, TouchSensor PosTouch, TouchSensor NegTouch, TouchSensor LimitTouch, String displayName, double axisSpeedMult) {
 
         // Overrides the null-defined local variables with axis-specific values
         this.axisMovement = axis;
@@ -51,6 +53,7 @@ public class SubmersibleServo {
         this.negTouch = NegTouch;
         this.limitTouch = LimitTouch;
         this.displayName = displayName;
+        this.axisSpeedMult = axisSpeedMult;
     }
 
     /** <b>Controls the servo movement on the axis.</b>
@@ -61,21 +64,22 @@ public class SubmersibleServo {
     public void servoMovement () {
 
         // IF the limit sensor is pressed...
-        //  ...OR the positive touch sensor AND the negitive touch sensor is pressed...
+        //  ...OR the positive touch sensor AND the negative touch sensor is pressed...
         if (this.limitTouch.isPressed() || (this.posTouch.isPressed() && this.negTouch.isPressed())) {
             this.axisMovement.setPower(0); // Set the power to 0%
 
         } else if (this.posTouch.isPressed()) {
             // ...else IF the positive touch sensor is pressed...
 
-            this.axisMovement.setPower(1); // Set the power to 100%
+            this.axisMovement.setPower(1 * this.axisSpeedMult); // Set the power to 100%
 
         } else if (this.negTouch.isPressed()) {
             // ...else IF the negative touch sensor is pressed...
 
-            this.axisMovement.setPower(-0.30); // Set the power to -100%
+            this.axisMovement.setPower(-1 * this.axisSpeedMult); // Set the power to -100%
 
         } else {
+            // ...else no buttons are being pressed.
 
             this.axisMovement.setPower(0); // Set the power to 0%
         }
