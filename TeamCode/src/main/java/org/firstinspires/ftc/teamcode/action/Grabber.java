@@ -74,7 +74,7 @@ public class Grabber {
     /** <b>Outputs relevant information about the {@link Grabber} to the driver screen.</b> */
     public void telemetryOutput() {
 
-        telemetry.addData("Grabber", "\n" +
+        this.telemetry.addData("Grabber", "\n" +
                 "Claw Moves Up: %b\n" +
                 "Was Pressed: %b\n" +
                 "Magnet: %.2f\n" +

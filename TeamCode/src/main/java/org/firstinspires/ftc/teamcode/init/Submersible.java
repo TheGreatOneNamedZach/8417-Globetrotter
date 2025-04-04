@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -54,10 +56,14 @@ public class Submersible extends OpMode {
         zAxisNegTouch = hardwareMap.get(TouchSensor.class, "Z Neg");
         grab = hardwareMap.get(TouchSensor.class, "Grab");
 
+        // Reverses the servo
+        upAndDown.setDirection(DcMotorSimple.Direction.REVERSE);
+
         // Constructs the objects
-        xAxis = new SubmersibleServo(upAndDown, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis", 1);
-        zAxis = new SubmersibleServo(leftAndRight, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis", 0.75);
+        xAxis = new SubmersibleServo(leftAndRight, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis", 1);
+        zAxis = new SubmersibleServo(upAndDown, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis", 0.75);
         grabber = new Grabber(magnetClaw, this, grab);
+
     }
 
     @Override

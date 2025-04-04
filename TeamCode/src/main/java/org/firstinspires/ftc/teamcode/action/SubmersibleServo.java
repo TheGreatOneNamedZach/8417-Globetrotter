@@ -14,13 +14,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *     This object controls a {@link CRServo} and 3 {@link TouchSensor TouchSensors}.
  *     Two of the three touch sensors move the servo forwards and backwards.
  *     The final touch sensor acts as a limit touch sensor and prevents crashing.
+ *     The "backwards" movement of the servo should move towards the limit touch sensor.
  * </p>
  * @see org.firstinspires.ftc.teamcode.init.Submersible Submersible
  * @see Grabber
  */
 public class SubmersibleServo {
-
-
+    
     Telemetry telemetry; // The telemetry class object
     CRServo axisMovement; // The servo used for axis movement
     TouchSensor posTouch; // The touch sensor that moves the servo forwards
@@ -63,9 +63,9 @@ public class SubmersibleServo {
      */
     public void servoMovement () {
 
-        // IF the limit sensor is pressed...
+        // IF the limit sensor is pressed AND the positive touch sensor is NOT pressed...
         //  ...OR the positive touch sensor AND the negative touch sensor is pressed...
-        if (this.limitTouch.isPressed() || (this.posTouch.isPressed() && this.negTouch.isPressed())) {
+        if ((this.limitTouch.isPressed() && !this.posTouch.isPressed()) || (this.posTouch.isPressed() && this.negTouch.isPressed())) {
             this.axisMovement.setPower(0); // Set the power to 0%
 
         } else if (this.posTouch.isPressed()) {
