@@ -69,7 +69,7 @@ public class Submersible extends OpMode {
         zAxis.servoMovement();
         grabber.clawMovement();
 
-        // Outputs telemetry
+        // Outputs telemetry 
         grabber.telemetryOutput();
         xAxis.telemetryOutput();
         zAxis.telemetryOutput();
