@@ -60,8 +60,8 @@ public class Submersible extends OpMode {
         upAndDown.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Constructs the objects
-        xAxis = new SubmersibleServo(leftAndRight, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis", 1);
-        zAxis = new SubmersibleServo(upAndDown, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis", 0.75);
+        xAxis = new SubmersibleServo(leftAndRight, this, xAxisPosTouch, xAxisNegTouch, xAxisLimitTouch, "X Axis", 1, 2250.0);
+        zAxis = new SubmersibleServo(upAndDown, this, zAxisPosTouch, zAxisNegTouch, zAxisLimitTouch, "Z Axis", 0.75, 2000.0);
         grabber = new Grabber(magnetClaw, this, grab);
 
     }
@@ -78,5 +78,18 @@ public class Submersible extends OpMode {
         grabber.telemetryOutput();
         xAxis.telemetryOutput();
         zAxis.telemetryOutput();
+
+        // IF all 4 directions are pressed at the same time...
+        if (
+            xAxisPosTouch.isPressed() &&
+            xAxisNegTouch.isPressed() &&
+            zAxisPosTouch.isPressed() &&
+            zAxisNegTouch.isPressed()
+        ) {
+
+            // ...override the Time From Home Limiter
+            xAxis.setOverrideStatus(true);
+            zAxis.setOverrideStatus(true);
+        }
     }
 }
